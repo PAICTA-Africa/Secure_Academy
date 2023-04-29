@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+	$(document).ready(function() {
+		$("#login-button").click(function() {
+			var username = $("#username").val();
+			var password = $("#password").val();
+			var userType = $("#user-type").val();
+			if (username === "" || password === "" || userType === "") {
+				alert("Please fill in all fields");
+			} else {
+				$.ajax({
+					type: "POST",
+					url: "login.php",
+					data: {
+						username: username,
+						password: password,
+						userType: userType
+					},
+					success: function(response) {
+						if (response === "super-admin") {
+							window.location.href = "https://example.com/super-admin/" + username;
+						} else if (response === "admin") {
+							window.location.href = "https://example.com/admin/" + username;
+						} else if (response === "student") {
+							window.location.href = "https://example.com/student/" + username;
+						} else {
+							alert("Invalid username or password");
+						}
+					}
+				});
+			}
+		});
+	});
+	</script>
+</head>
+<body>
+	<h1>Login Page</h1>
+	<form>
+		<label>Username:</label><br>
+		<input type="text" id="username"><br>
+		<label>Password:</label><br>
+		<input type="password" id="password"><br>
+		<label>User Type:</label><br>
+		<select id="user-type">
+			<option value="">Select User Type</option>
+			<option value="super-admin">Super Admin</option>
+			<option value="admin">Administrator</option>
+			<option value="student">Student</option>
+		</select><br>
+		<button type="button" id="login-button">Login</button>
+	</form>
+</body>
+</html>
